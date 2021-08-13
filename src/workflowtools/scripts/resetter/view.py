@@ -2,7 +2,7 @@
 import pymel.core as pm
 import logging
 
-import core
+from . import core
 
 __all__ = [
     "GUI",
