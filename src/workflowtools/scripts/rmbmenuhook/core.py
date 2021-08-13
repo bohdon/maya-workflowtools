@@ -7,8 +7,10 @@ currently registered.
 """
 
 
-import pymel.core as pm
 import os
+
+import pymel.core as pm
+
 
 __all__ = [
     'enable',
@@ -57,6 +59,3 @@ def disable():
     for script in ORIGINAL_SCRIPTS:
         pm.mel.source(script)
     print('RMB Marking Menu Hooks disabled')
-
-
-

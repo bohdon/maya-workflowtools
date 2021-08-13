@@ -1,8 +1,8 @@
 
 import logging
 import operator
-import pymel.core as pm
 
+import pymel.core as pm
 import pymetanode as meta
 
 from .. import core
@@ -54,6 +54,7 @@ def getAllCollections():
     # no sets, create the default one and return it in a list
     return [getDefaultCollection()]
 
+
 def getCollection(name):
     """
     Return a QuickSelectCollection from the scene by name
@@ -62,6 +63,7 @@ def getCollection(name):
     for n in nodes:
         if getCollectionNameFromNode(n) == name:
             return QuickSelectCollection.fromNode(n)
+
 
 def getDefaultCollection():
     """
@@ -72,6 +74,7 @@ def getDefaultCollection():
     if not coll:
         coll = createCollection(DEFAULT_COLLECTION_NAME)
     return coll
+
 
 def getActiveCollection():
     """
@@ -88,16 +91,20 @@ def getActiveCollection():
         ACTIVE_COLLECTION = coll.name
     return coll
 
+
 def createCollection(name):
     coll = QuickSelectCollection(name)
     coll.save()
     return coll
 
+
 def getCollectionNameFromNode(node):
     return node.nodeName()[len(COLLECTION_PREFIX):]
 
+
 def promptBox(title, msg, okButton, cancelButton, tx=None):
-    prompt = pm.cmds.promptDialog(t=title, m=msg, tx=tx, b=[okButton, cancelButton])
+    prompt = pm.cmds.promptDialog(t=title, m=msg, tx=tx, b=[
+                                  okButton, cancelButton])
     if prompt != okButton:
         return
     return pm.cmds.promptDialog(q=True)
@@ -106,8 +113,6 @@ def promptBox(title, msg, okButton, cancelButton, tx=None):
 def setShowCounts(newShow):
     global SHOW_COUNTS
     SHOW_COUNTS = bool(newShow)
-
-
 
 
 class QuickSelectCollection(object):
@@ -155,7 +160,8 @@ class QuickSelectCollection(object):
         if node:
             data = meta.getMetaData(node, META_CLASSNAME)
             self.name = getCollectionNameFromNode(node)
-            self.sets = [QuickSelectSet(**kwargs) for kwargs in data.get('sets', [])]
+            self.sets = [QuickSelectSet(**kwargs)
+                         for kwargs in data.get('sets', [])]
 
     def save(self):
         # TODO: handle locked nodes
@@ -199,7 +205,8 @@ class QuickSelectCollection(object):
         if quickSet.position:
             for s in self.sets:
                 if s.position == quickSet.position:
-                    raise ValueError("cannot add a quick set, position already occupied: {0}".format(s.position))
+                    raise ValueError(
+                        "cannot add a quick set, position already occupied: {0}".format(s.position))
         self.sets.append(quickSet)
         self.save()
 
@@ -227,12 +234,12 @@ class QuickSelectCollection(object):
         return result
 
 
-
 class QuickSelectSet(object):
     """
     Represents one or more objects in the scene that
     can then be easily selected
     """
+
     def __init__(self, nodes, title=None, position=None):
         # the nodes in this set
         self.setNodes(nodes)
@@ -283,10 +290,6 @@ class QuickSelectSet(object):
         pm.select(self.nodes, add=add)
 
 
-
-
-
-
 class QuickSelectMenu(core.MarkingMenu):
 
     def __init__(self):
@@ -305,13 +308,14 @@ class QuickSelectMenu(core.MarkingMenu):
         # build menu items for each set
         for i, s in enumerate(self.collection.sets):
             itemKwargs = {
-                'l':s.getTitle(),
+                'l': s.getTitle(),
             }
             if SHOW_COUNTS:
                 itemKwargs['l'] += ' ({0})'.format(len(s))
             if s.position:
                 itemKwargs['rp'] = s.position
-            pm.menuItem(c=pm.Callback(pm.select, s.nodes, add=True), **itemKwargs)
+            pm.menuItem(c=pm.Callback(
+                pm.select, s.nodes, add=True), **itemKwargs)
             if not self.isReadOnly:
                 pm.menuItem(ob=True, c=pm.Callback(self.editSet, s, i))
 
@@ -319,15 +323,16 @@ class QuickSelectMenu(core.MarkingMenu):
         if not self.isReadOnly:
             vacantPositions = self.collection.getRadialVacancies()
             for rp in vacantPositions:
-                pm.menuItem(l='...', rp=rp, c=pm.Callback(self.addSetFromSelection, position=rp))
+                pm.menuItem(l='...', rp=rp, c=pm.Callback(
+                    self.addSetFromSelection, position=rp))
             # always include slot at end of extras list
             pm.menuItem(l='...', c=pm.Callback(self.addSetFromSelection))
 
         # collection title
         pm.menuItem(d=True)
         pm.menuItem(l=self.collection.name, c=pm.Callback(self.selectAll))
-        pm.menuItem(ob=True, c=pm.CallbackWithArgs(QuickSelectCollectionsMenu.editCollection, self.collection))
-
+        pm.menuItem(ob=True, c=pm.CallbackWithArgs(
+            QuickSelectCollectionsMenu.editCollection, self.collection))
 
     def addSetFromSelection(self, position=None):
         s = QuickSelectSet(pm.selected(), position=position)
@@ -362,7 +367,8 @@ class QuickSelectMenu(core.MarkingMenu):
         self.collection.save()
 
     def renamePrompt(self, quickSet):
-        name = promptBox('Rename Set', 'Enter a name:', 'Rename', 'Cancel', tx=quickSet.title)
+        name = promptBox('Rename Set', 'Enter a name:',
+                         'Rename', 'Cancel', tx=quickSet.title)
         if name:
             quickSet.title = name
             self.collection.save()
@@ -373,8 +379,6 @@ class QuickSelectMenu(core.MarkingMenu):
     def selectAll(self):
         for s in self.collection.sets:
             s.select(add=True)
-
-
 
 
 class QuickSelectCollectionsMenu(core.RMBMarkingMenu):
@@ -393,20 +397,23 @@ class QuickSelectCollectionsMenu(core.RMBMarkingMenu):
                 'cb': coll.isActive(),
             }
             pm.menuItem(c=pm.Callback(coll.makeActive), **itemKwargs)
-            pm.menuItem(ob=True, c=pm.CallbackWithArgs(QuickSelectCollectionsMenu.editCollection, coll))
+            pm.menuItem(ob=True, c=pm.CallbackWithArgs(
+                QuickSelectCollectionsMenu.editCollection, coll))
 
         # new collection item
-        pm.menuItem(l='New...', itl=True, c=pm.Callback(QuickSelectCollectionsMenu.newCollectionPrompt))
+        pm.menuItem(l='New...', itl=True, c=pm.Callback(
+            QuickSelectCollectionsMenu.newCollectionPrompt))
 
         # additional options
         pm.menuItem(d=True)
         pm.menuItem(l='Show Node Counts', cb=SHOW_COUNTS, c=pm.CallbackWithArgs(setShowCounts),
-            ann="Display node counts on menu items in the quick select menu"
-        )
+                    ann="Display node counts on menu items in the quick select menu"
+                    )
 
     @staticmethod
     def newCollectionPrompt():
-        name = promptBox('New Quick Select Collection', 'Enter a name (camelCase):', 'Create', 'Cancel')
+        name = promptBox('New Quick Select Collection',
+                         'Enter a name (camelCase):', 'Create', 'Cancel')
         if name:
             createCollection(name)
 
@@ -432,7 +439,7 @@ class QuickSelectCollectionsMenu(core.RMBMarkingMenu):
     @staticmethod
     def renameCollectionPrompt(coll):
         currentName = coll.name
-        name = promptBox('Rename Collection', 'Enter a name (camelCase):', 'Rename', 'Cancel', tx=currentName)
+        name = promptBox('Rename Collection', 'Enter a name (camelCase):',
+                         'Rename', 'Cancel', tx=currentName)
         if name:
             coll.setName(name)
-

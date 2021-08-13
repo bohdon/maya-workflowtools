@@ -10,11 +10,13 @@ __all__ = [
     "removeHotkeys",
 ]
 
+
 def registerHotkeys():
     importCmd = "import maya.mel as mel"
     secondaryCmd = "mel.eval('fitPanel -selectedNoChildren')"
     description = "A dynamic quick select set menu for storing and retrieving selections easily"
-    core.registerMenuHotkeys("FMenus", "F", importCmd=importCmd, secondaryCmd=secondaryCmd, annotation=description)
+    core.registerMenuHotkeys("FMenus", "F", importCmd=importCmd,
+                             secondaryCmd=secondaryCmd, annotation=description)
     print('Quick Menus: F-Menu hotkeys registered')
 
 
@@ -33,4 +35,3 @@ def enable():
 def disable():
     core.unregisterMenu("FMenus", all=True)
     print('Quick Menus: F-Menus disabled')
-

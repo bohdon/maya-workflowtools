@@ -36,6 +36,7 @@ __all__ = [
 
 REGISTERED_MENUS = {}
 
+
 def registerMenu(name, cls, priority=0):
     """
     Register a Menu class under the given name
@@ -43,6 +44,7 @@ def registerMenu(name, cls, priority=0):
     """
     global REGISTERED_MENUS
     REGISTERED_MENUS[name] = (cls, priority)
+
 
 def unregisterMenu(name):
     """
@@ -53,6 +55,7 @@ def unregisterMenu(name):
     if name in REGISTERED_MENUS:
         del REGISTERED_MENUS[name]
 
+
 def getRegisteredMenu(name):
     """
     Return the menu class that is registered under
@@ -62,12 +65,14 @@ def getRegisteredMenu(name):
     if name in REGISTERED_MENUS:
         return REGISTERED_MENUS[name]
 
+
 def getAllRegisteredMenus():
     """
     Return all registered menus
     """
     global REGISTERED_MENUS
     return REGISTERED_MENUS.items()
+
 
 def getPrioritizedMenuClasses():
     """
@@ -82,7 +87,6 @@ def getPrioritizedMenuClasses():
     classes.reverse()
     # return only the classes
     return [c for (c, p) in classes]
-
 
 
 def buildMenu(menu, obj=None):
@@ -102,8 +106,6 @@ def buildMenu(menu, obj=None):
             inst.build()
             return True
     return False
-
-
 
 
 class Menu(object):

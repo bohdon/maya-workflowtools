@@ -1,6 +1,8 @@
 
-import pymel.core as pm
 import logging
+
+import pymel.core as pm
+
 
 __all__ = [
     "getChannelBoxSelection",

@@ -1,7 +1,7 @@
 
 import logging
-import pymel.core as pm
 
+import pymel.core as pm
 import rmbmenuhook
 
 from . import utils

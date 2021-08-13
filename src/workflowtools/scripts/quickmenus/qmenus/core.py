@@ -10,11 +10,13 @@ __all__ = [
     "removeHotkeys",
 ]
 
+
 def registerHotkeys():
     importCmd = "import maya.mel as mel"
     preBuildCmd = "mel.eval('global string $gSelect; setToolTo $gSelect;')"
     description = "Selection and display masking menus, as well as a camera quick switch menu"
-    core.registerMenuHotkeys("QMenus", "Q", importCmd=importCmd, preBuildCmd=preBuildCmd, annotation=description)
+    core.registerMenuHotkeys("QMenus", "Q", importCmd=importCmd,
+                             preBuildCmd=preBuildCmd, annotation=description)
 
     description2 = "Component selection and resetter menus"
     core.registerMenuHotkeys("AltQMenus", "Alt+Q", annotation=description2)
@@ -41,4 +43,3 @@ def enable():
 def disable():
     core.unregisterMenu("QMenus", all=True)
     print('Quick Menus: Q-Menus disabled')
-

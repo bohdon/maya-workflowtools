@@ -1,8 +1,10 @@
 
-import pymel.core as pm
 import logging
 
+import pymel.core as pm
+
 from . import core
+
 
 __all__ = [
     "GUI",
