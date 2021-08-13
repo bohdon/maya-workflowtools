@@ -1,0 +1,34 @@
+/*
+	Contains as few helper functions used by the rmbmenuhookOverrides* scripts.
+	This allows the override scripts to be much simpler, and the mel functionality
+	to be controlled mostly through this script.
+*/
+
+/*
+Make a call to the right click menu manager to build a custom menu if desired.
+*/
+global proc int rmbmenuhook_buildMenu(string $menu) {
+	int $result;
+	if (catch($result = python("import rmbmenuhook; rmbmenuhook.buildMenu('" + $menu + "')"))) {
+		print("Failed to run rmbmenuhook.buildMenu");
+	} else if ($result) {
+		// handled as a custom menu
+		return true;
+	}
+	return false;
+}
+
+
+/*
+Make a call to the right click menu manager to build a custom menu if desired.
+*/
+global proc int rmbmenuhook_buildMenuWithObject(string $menu, string $object) {
+	int $result;
+	if (catch($result = python("import rmbmenuhook; rmbmenuhook.buildMenu('" + $menu + "', '" + $object + "')"))) {
+		print("Failed to run rmbmenuhook.buildMenu");
+	} else if ($result) {
+		// handled as a custom menu
+		return true;
+	}
+	return false;
+}
