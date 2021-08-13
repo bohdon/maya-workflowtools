@@ -81,7 +81,7 @@ def getPrioritizedMenuClasses():
     """
     # registered values are tuples of (cls, priority)
     global REGISTERED_MENUS
-    classes = REGISTERED_MENUS.values()
+    classes = list(REGISTERED_MENUS.values())
     # sort by priority
     classes.sort(key=lambda x: x[1])
     classes.reverse()
