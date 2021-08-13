@@ -1,11 +1,11 @@
 
-import os
 import logging
+import operator
 import pymel.core as pm
 
 import pymetanode as meta
 
-import quickmenus
+from .. import core
 
 
 __all__ = [
@@ -287,7 +287,7 @@ class QuickSelectSet(object):
 
 
 
-class QuickSelectMenu(quickmenus.MarkingMenu):
+class QuickSelectMenu(core.MarkingMenu):
 
     def __init__(self):
         super(self.__class__, self).__init__()
@@ -377,7 +377,7 @@ class QuickSelectMenu(quickmenus.MarkingMenu):
 
 
 
-class QuickSelectCollectionsMenu(quickmenus.RMBMarkingMenu):
+class QuickSelectCollectionsMenu(core.RMBMarkingMenu):
 
     def buildMenuItems(self):
         # header
@@ -386,7 +386,7 @@ class QuickSelectCollectionsMenu(quickmenus.RMBMarkingMenu):
 
         # list all collections
         collections = getAllCollections()
-        collections.sort(lambda a, b: cmp(a.name, b.name))
+        collections.sort(key=operator.attrgetter("name"))
         for coll in collections:
             itemKwargs = {
                 'l': coll.name,

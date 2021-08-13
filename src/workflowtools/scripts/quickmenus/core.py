@@ -1,10 +1,10 @@
 
-import os
 import logging
 import pymel.core as pm
 
 import rmbmenuhook
-import utils
+
+from . import utils
 
 
 __all__ = [
@@ -106,7 +106,7 @@ def registerMenuHotkeys(menuName, hotkey, importCmd=None, preBuildCmd=None, seco
     runTimeKwargs = {
         "annotation": annotation,
         "category": "Custom Scripts.quickmenus",
-        "cl":"python",
+        "cl": "python",
     }
 
     # clean prebuild and secondary commands
@@ -115,8 +115,10 @@ def registerMenuHotkeys(menuName, hotkey, importCmd=None, preBuildCmd=None, seco
     secondaryCmd = secondaryCmd if secondaryCmd else "pass"
 
     # create run time commands
-    buildCmd = BUILD_MENU_CMD.format(menuName=menuName, importCmd=importCmd, preBuild=preBuildCmd, secondary=secondaryCmd)
-    destroyCmd = DESTROY_MENU_CMD.format(menuName=menuName, importCmd=importCmd, preBuild=preBuildCmd, secondary=secondaryCmd)
+    buildCmd = BUILD_MENU_CMD.format(
+        menuName=menuName, importCmd=importCmd, preBuild=preBuildCmd, secondary=secondaryCmd)
+    destroyCmd = DESTROY_MENU_CMD.format(
+        menuName=menuName, importCmd=importCmd, preBuild=preBuildCmd, secondary=secondaryCmd)
 
     buildRtCmdId = rtCmdIdFmt.format("build", menuName)
     if pm.runTimeCommand(buildRtCmdId, q=True, ex=True):
@@ -124,7 +126,8 @@ def registerMenuHotkeys(menuName, hotkey, importCmd=None, preBuildCmd=None, seco
     pm.runTimeCommand(buildRtCmdId, c=buildCmd, **runTimeKwargs)
 
     buildNameCmdId = namedCmdIdFmt.format("build", menuName)
-    pm.nameCommand(buildNameCmdId, c=buildRtCmdId, ann=buildRtCmdId + " Named Command")
+    pm.nameCommand(buildNameCmdId, c=buildRtCmdId,
+                   ann=buildRtCmdId + " Named Command")
 
     destroyRtCmdId = rtCmdIdFmt.format("destroy", menuName)
     if pm.runTimeCommand(destroyRtCmdId, q=True, ex=True):
@@ -132,7 +135,8 @@ def registerMenuHotkeys(menuName, hotkey, importCmd=None, preBuildCmd=None, seco
     pm.runTimeCommand(destroyRtCmdId, c=destroyCmd, **runTimeKwargs)
 
     destroyNameCmdId = namedCmdIdFmt.format("destroy", menuName)
-    pm.nameCommand(destroyNameCmdId, c=destroyRtCmdId, ann=destroyRtCmdId + " Named Command")
+    pm.nameCommand(destroyNameCmdId, c=destroyRtCmdId,
+                   ann=destroyRtCmdId + " Named Command")
 
     # make sure we're in an editable hotkey set in >2017
     _switchToNonDefaultHotkeySet()
@@ -171,7 +175,6 @@ def removeMenuHotkeys(menuName, hotkey):
         pm.hotkey(name="", **keyKwargs)
     if pm.hotkey(key, query=True, releaseName=True, **keyQueryKwargs) == destroyNameCmdId:
         pm.hotkey(releaseName="", **keyKwargs)
-
 
 
 # Building / Destroying Menus
@@ -213,7 +216,7 @@ def destroyMenus(menuName):
         shown at least once.
     """
     wasAnyInvoked = False
-    
+
     global ACTIVE_MENUS
     for m in ACTIVE_MENUS:
         wasAnyInvoked = wasAnyInvoked or m.wasInvoked
@@ -227,7 +230,6 @@ def destroyMenus(menuName):
     rmbmenuhook.unregisterMenu(menuName)
 
     return wasAnyInvoked
-
 
 
 # Menu Registration
@@ -259,7 +261,8 @@ def unregisterMenu(menuName, cls=None, all=False):
             menu name are unregistered.
     """
     if not cls and not all:
-        raise ValueError("`cls` argument must be given when not unregistering all menus")
+        raise ValueError(
+            "`cls` argument must be given when not unregistering all menus")
     global REGISTERED_MENUS
     if menuName in REGISTERED_MENUS:
         if all:
@@ -293,8 +296,6 @@ def getAllRegisteredMenus():
     return REGISTERED_MENUS.items()
 
 
-
-
 class MarkingMenu(object):
     """
     The base class for any quick marking menu that can
@@ -308,15 +309,15 @@ class MarkingMenu(object):
         self.popupKeyKwargs = {
             'mm': True,
             'aob': True,
-            'parent':'viewPanes',
-            'sh':isShiftPressed,
-            'ctl':isCtrlPressed,
-            'alt':isAltPressed,
+            'parent': 'viewPanes',
+            'sh': isShiftPressed,
+            'ctl': isCtrlPressed,
+            'alt': isAltPressed,
         }
         # variable to keep track of if this menu ever showed
         self.wasInvoked = False
         # the panel that the popup menu will be attached to
-        self.panel = pm.getPanel(up=True)
+        self.panel = pm.getPanel(underPointer=True)
         # the panel type, can be used when building to determine the menu's contents
         self.panelType = pm.getPanel(typeOf=self.panel)
         LOG.debug("Panel: " + self.panel + ", Panel Type: " + self.panelType)
@@ -340,11 +341,13 @@ class MarkingMenu(object):
         Build the popup menu that all menu items will be attached to
         """
         if not self.popupMenuId:
-            raise NotImplementedError("popupMenuId must be set on MarkingMenu classes")
+            raise NotImplementedError(
+                "popupMenuId must be set on MarkingMenu classes")
         # calling destroy as a failsafe so that duplicate
         # menus dont get created
         self.destroy()
-        self.menu = pm.popupMenu(self.popupMenuId, b=self.mouseButton, **self.popupKeyKwargs)
+        self.menu = pm.popupMenu(
+            self.popupMenuId, b=self.mouseButton, **self.popupKeyKwargs)
         self.menu.postMenuCommand(self.onMenuWillShow)
         # if not set to build on show, build items now
         if not self.buildItemsOnShow:
@@ -371,7 +374,6 @@ class MarkingMenu(object):
         Called each time the menu is about to be displayed.
         """
         pass
-
 
 
 class RMBMarkingMenu(rmbmenuhook.Menu):

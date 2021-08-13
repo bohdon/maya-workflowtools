@@ -257,7 +257,7 @@ def reset(nodes=None, useBasicDefaults=True, useCBSelection=True):
                     newAttrVals[n.attr(a)] = 1 if 's' in a else 0
         # trim using cb selection
         if useCBSelection and len(selAttrs) > 0:
-            nodeSelAttrs = {} if not selAttrs.has_key(n) else selAttrs[n]
+            nodeSelAttrs = {} if n not in selAttrs else selAttrs[n]
             delAttrs = [a for a in newAttrVals.keys() if a not in nodeSelAttrs]
             for a in delAttrs:
                 del newAttrVals[a]
@@ -308,7 +308,7 @@ def getChannelBoxSelection(main=True, shape=True, out=True, hist=True):
         if objs is not None and attrs is not None:
             for obj in objs:
                 pyobj = pm.PyNode(obj)
-                if not result.has_key(pyobj):
+                if pyobj not in result:
                     result[pyobj] = []
                 thisObjsAttrs = [pyobj.attr(a)
                                  for a in attrs if pyobj.hasAttr(a)]

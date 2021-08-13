@@ -1,3 +1,3 @@
 
-from core import *
-from menus import *
+from .core import *
+from .menus import *

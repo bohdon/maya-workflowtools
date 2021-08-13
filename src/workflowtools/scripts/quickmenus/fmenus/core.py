@@ -1,6 +1,6 @@
 
 from .. import core
-import menus
+from . import menus
 
 
 __all__ = [

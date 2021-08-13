@@ -1,6 +1,5 @@
 
-from core import *
-from utils import *
-
-import fmenus
-import qmenus
+from .core import *
+from .utils import *
+from . import fmenus
+from . import qmenus

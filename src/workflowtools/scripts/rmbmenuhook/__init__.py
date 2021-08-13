@@ -1,4 +1,3 @@
 
-
-from core import *
-from menu import *
+from .core import *
+from .menu import *

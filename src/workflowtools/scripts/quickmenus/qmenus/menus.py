@@ -3,13 +3,15 @@ import logging
 
 import pymel.core as pm
 
+from .. import core
+from .. import utils
+
 try:
     import resetter
 except:
     resetter = None
 
 
-import quickmenus
 
 
 __all__ = [
@@ -25,7 +27,7 @@ LOG = logging.getLogger('quickmenus')
 
 
 
-class SelectionMaskingMenu(quickmenus.MarkingMenu):
+class SelectionMaskingMenu(core.MarkingMenu):
     """
     A radial menu for quickly changing selection masking settings.
     Only displays on model viewport panels.
@@ -43,7 +45,7 @@ class SelectionMaskingMenu(quickmenus.MarkingMenu):
     ]
 
     def __init__(self):
-        super(self.__class__, self).__init__()
+        super().__init__()
         self.popupMenuId = 'QuickMenus_SelectionMaskingMenu'
         self.mouseButton = 1
         self.buildItemsOnShow = True
@@ -110,14 +112,14 @@ class SelectionMaskingMenu(quickmenus.MarkingMenu):
 
 
 
-class DisplayMaskingMenu(quickmenus.MarkingMenu):
+class DisplayMaskingMenu(core.MarkingMenu):
     """
     A radial menu for quickly changing display masking settings.
     Only displays on model viewport panels.
     """
 
     def __init__(self):
-        super(self.__class__, self).__init__()
+        super().__init__()
         self.popupMenuId = 'QuickMenus_DisplayMaskingMenu'
         self.mouseButton = 2
         self.buildItemsOnShow = True
@@ -210,7 +212,7 @@ class DisplayMaskingMenu(quickmenus.MarkingMenu):
             'pfxGeometry'       :'strokes',
         }
         types = self.getShapeTypes(obj, nodeTypeDict.keys())
-        keys = [nodeTypeDict[t] for t in types if nodeTypeDict.has_key(t)]
+        keys = [nodeTypeDict[t] for t in types if t in nodeTypeDict]
         return keys
 
     def getShapeTypes(self, obj, options):
@@ -242,7 +244,7 @@ class DisplayMaskingMenu(quickmenus.MarkingMenu):
 
 
 
-class CameraQuickSwitchMenu(quickmenus.RMBMarkingMenu):
+class CameraQuickSwitchMenu(core.RMBMarkingMenu):
     """
     A radial menu that displays all cameras in the scene for easy switching.
     """
@@ -263,7 +265,7 @@ class CameraQuickSwitchMenu(quickmenus.RMBMarkingMenu):
         isOrtho = camera.isOrtho()
         # list same type camera in radial positions
         similar = sorted([c for c in pm.ls(typ='camera') if c.isOrtho() == isOrtho])
-        rps = quickmenus.getRadialMenuPositions(len(similar))
+        rps = utils.getRadialMenuPositions(len(similar))
         for cam, rp in zip(similar, rps):
             kw = {}
             if rp is not None:
@@ -284,7 +286,7 @@ class CameraQuickSwitchMenu(quickmenus.RMBMarkingMenu):
 
 
 
-class ComponentSelectionMaskingMenu(quickmenus.MarkingMenu):
+class ComponentSelectionMaskingMenu(core.MarkingMenu):
     allkeys = [
         'cv', 'vertex', 'subdivMeshPoint', 'latticePoint',
         'particle', 'editPoint', 'curveParameterPoint',
@@ -297,7 +299,7 @@ class ComponentSelectionMaskingMenu(quickmenus.MarkingMenu):
 
 
     def __init__(self):
-        super(self.__class__, self).__init__()
+        super().__init__()
         self.popupMenuId = 'QuickMenus_ComponentSelectionMaskingMenu'
         self.mouseButton = 1
         self.buildItemsOnShow = True
@@ -321,16 +323,16 @@ class ComponentSelectionMaskingMenu(quickmenus.MarkingMenu):
         for k in keys:
             kwargs[k] = enabled
         for k in self.allkeys:
-            if not kwargs.has_key(k):
+            if k not in kwargs:
                 kwargs[k] = not enabled
         pm.selectType(**kwargs)
 
 
 
-class ResetterMenu(quickmenus.MarkingMenu):
+class ResetterMenu(core.MarkingMenu):
 
     def __init__(self):
-        super(self.__class__, self).__init__()
+        super().__init__()
         self.popupMenuId = 'QuickMenus_ResetterMenu'
         self.mouseButton = 2
 
