@@ -224,7 +224,7 @@ def reset(nodes=None, useBasicDefaults=True, useCBSelection=True):
         nodes = pm.selected()
     else:
         if not isinstance(nodes, (list, tuple)):
-            if not isinstance(nodes, (str, unicode, pm.nt.DependNode)):
+            if not isinstance(nodes, (str, pm.nt.DependNode)):
                 raise TypeError('expected node, node name, or list of nodes; got {0}'.format(type(nodes).__name__))
             nodes = [nodes]
         nodes = [pm.PyNode(n) for n in nodes]
