@@ -8,7 +8,7 @@ if [[ ! "$MAYA_MODULES_INSTALL_PATH" ]]; then
     if [[ "$(uname)" == "Darwin" ]]; then
         MAYA_MODULES_INSTALL_PATH="$HOME/Library/Preferences/Autodesk/maya/modules"
     elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
-        MAYA_MODULES_INSTALL_PATH="/usr/autodesk/userconfig/maya/modules"
+        MAYA_MODULES_INSTALL_PATH="$HOME/maya/modules"
     elif [[ "$(expr substr $(uname -s) 1 5)" == "MINGW" ]]; then
         IS_WINDOWS=1
         MAYA_MODULES_INSTALL_PATH="$HOME/Documents/maya/modules"
