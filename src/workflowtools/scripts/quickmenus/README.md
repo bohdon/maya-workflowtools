@@ -28,11 +28,7 @@ Q-menus are a set of selection and display related marking menus. Menus include 
 - Hold `alt+q` and use `middle-mouse-button` to summon a [resetter](https://github.com/bohdon/maya-resetter) menu for quickly resetting object transforms, etc
 
 
-## Installation
-
-Download the [latest release](https://github.com/bohdon/maya-quickmenus/releases/latest) and unzip the contents into your `maya/modules` folder. You may have to create the folder if it doesn't already exist.
-- Windows: `C:/Users/<user>/Documents/maya/modules`
-- Mac: `/Users/<user>/Library/Preferences/Autodesk/maya/modules`
+## Setup
 
 Then add the following to your `userSetup.py` file. You may have to create the file as a new text document if it doesn't already exist.
 - Windows: `C:/Users/<user>/Documents/maya/scripts/userSetup.py`
@@ -57,12 +53,6 @@ After launching Maya, a first-time setup is required for registering the hotkeys
 quickmenus.qmenus.registerHotkeys()
 quickmenus.fmenus.registerHotkeys()
 ```
-
-NOTE: in Maya 2017, some issues still exist with custom Hotkey sets, and you may have to run this each session
-
-The quickmenus release also includes releases for these packages
-- [maya-pymetanode](https://github.com/bohdon/maya-pymetanode)
-- [maya-rmbmenuhook](https://github.com/bohdon/maya-rmbmenuhook)
 
 
 ## Version 1.0.0 (2017-12-19)
