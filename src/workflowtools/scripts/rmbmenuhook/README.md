@@ -33,17 +33,3 @@ class IKFKSwitchMenu(rmbmenuhook.Menu):
 # register the menu by name, so it can be unregistered by name, and give it a priority
 rmbmenuhook.registerMenu('IKFKSwitchMenu', IKFKSwitchMenu, 1)
 ```
-
-## Version 1.0.2 (2017-10-21)
-
-- Adds 2018 mel overrides
-
-## Version 1.0.1 (2017-05-26)
-
-- Updates 2015 mel overrides
-
-## Version 1.0.0 (2017-05-21)
-
-- Adds 2017 mel overrides
-- Adds registering and unregistering menus as a replacement for finding subclasses
-
