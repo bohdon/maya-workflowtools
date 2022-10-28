@@ -9,10 +9,14 @@ A collection of workflow related tools for Maya.
     - Windows: `~/Documents/maya/modules/`
     - Mac: `~/Library/Preferences/Autodesk/maya/modules/`
     - Linux: `~/maya/modules/`
-- You may have to create the `modules` folder if it does not exist
-- Once installed, the result should look like this:
-    - `.../modules/workflowtools/...`
-    - `.../modules/workflowtools.mod`
+
+> Note that you may need to create the `modules` folder if it does not exist.
+    
+Once installed, the result should look like this:
+```
+.../modules/workflowtools/
+.../modules/workflowtools.mod
+```
 
 ## Setup & Usage
 

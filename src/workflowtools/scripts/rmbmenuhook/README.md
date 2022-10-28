@@ -6,7 +6,7 @@ Adding marking menus using hotkeys for most button combinations is easy, but the
 inextensible in vanilla Maya. This project makes it easy to conditionally add menus that can replace the RMB default
 marking menus.
 
-## Basic Example
+## Usage
 
 A simple example would be adding a menu that displays `Switch to IK` or `Switch to FK` if an IKFK animation control is
 selected.
