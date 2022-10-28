@@ -2,12 +2,14 @@
 
 A very specific util for hooking into and extending the right mouse button marking menus in Maya.
 
-Adding marking menus using hotkeys for most button combinations is easy, but the right mouse button (unmodified) is inextensible in vanilla Maya. This project makes it easy to conditionally add menus that can replace the RMB default marking menus.
-
+Adding marking menus using hotkeys for most button combinations is easy, but the right mouse button (unmodified) is
+inextensible in vanilla Maya. This project makes it easy to conditionally add menus that can replace the RMB default
+marking menus.
 
 ## Basic Example
 
-A simple example would be adding a menu that displays `Switch to IK` or `Switch to FK` if an IKFK animation control is selected.
+A simple example would be adding a menu that displays `Switch to IK` or `Switch to FK` if an IKFK animation control is
+selected.
 
 ```python
 import pymel.core as pm
@@ -32,23 +34,16 @@ class IKFKSwitchMenu(rmbmenuhook.Menu):
 rmbmenuhook.registerMenu('IKFKSwitchMenu', IKFKSwitchMenu, 1)
 ```
 
-## Setup
-
-Add the following to `userSetup.py`:
-
-```python
-# enable RMB Marking Menu Hook
-import rmbmenuhook
-rmbmenuhook.enable()
-```
-
 ## Version 1.0.2 (2017-10-21)
+
 - Adds 2018 mel overrides
 
 ## Version 1.0.1 (2017-05-26)
+
 - Updates 2015 mel overrides
 
 ## Version 1.0.0 (2017-05-21)
+
 - Adds 2017 mel overrides
 - Adds registering and unregistering menus as a replacement for finding subclasses
 
