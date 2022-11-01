@@ -30,20 +30,3 @@ resetter.reset()
 # reset selected nodes using only defined defaults
 resetter.reset(useBasicDefaults=False)
 ```
-
-
-## Version 2.3.0 (2017-05-26)
-- Created standalone project for resetter
-
-## Version 2.2.0 (2012-04-01)
-- Much improved api
-- General organization and simplification
-
-## Version 2.1.2 (2012-03-16)
-- Rewritten in python
-- Added ability to set defaults from selected channel box attributes
-- Supports referencing and renaming
-- Smart and Xform modes added
-- Popup menus to add each function to the current shelf
-- Includes listing, resetting, and removing of defaults
-- Adds a default string to selected objects for restoring attributes
