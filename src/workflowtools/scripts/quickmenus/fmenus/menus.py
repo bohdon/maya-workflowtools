@@ -48,7 +48,7 @@ def getAllCollections():
     """
     Return a list of all quick select collections
     """
-    nodes = meta.findMetaNodes(META_CLASSNAME)
+    nodes = meta.find_meta_nodes(META_CLASSNAME)
     if nodes:
         return [QuickSelectCollection.fromNode(n) for n in nodes]
     # no sets, create the default one and return it in a list
@@ -59,7 +59,7 @@ def getCollection(name):
     """
     Return a QuickSelectCollection from the scene by name
     """
-    nodes = meta.findMetaNodes(META_CLASSNAME)
+    nodes = meta.find_meta_nodes(META_CLASSNAME)
     for n in nodes:
         if getCollectionNameFromNode(n) == name:
             return QuickSelectCollection.fromNode(n)
@@ -135,7 +135,7 @@ class QuickSelectCollection(object):
         Return the collection node from the scene with the
         same name, if one exists
         """
-        nodes = meta.findMetaNodes(META_CLASSNAME)
+        nodes = meta.find_meta_nodes(META_CLASSNAME)
         for n in nodes:
             if getCollectionNameFromNode(n) == self.name:
                 return n
@@ -158,7 +158,7 @@ class QuickSelectCollection(object):
         if not node:
             node = self.getNode()
         if node:
-            data = meta.getMetaData(node, META_CLASSNAME)
+            data = meta.get_metadata(node, META_CLASSNAME)
             self.name = getCollectionNameFromNode(node)
             self.sets = [QuickSelectSet(**kwargs)
                          for kwargs in data.get('sets', [])]
@@ -171,7 +171,7 @@ class QuickSelectCollection(object):
         node = self.getOrCreateNode()
         # update name to resolve node creation differences
         self.name = getCollectionNameFromNode(node)
-        meta.setMetaData(node, META_CLASSNAME, data)
+        meta.set_metadata(node, META_CLASSNAME, data)
 
     def isReadOnly(self):
         return False
