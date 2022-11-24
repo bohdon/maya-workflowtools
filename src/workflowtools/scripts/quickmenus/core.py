@@ -1,6 +1,7 @@
 
 import logging
 
+from maya import cmds
 import pymel.core as pm
 import rmbmenuhook
 
@@ -317,9 +318,9 @@ class MarkingMenu(object):
         # variable to keep track of if this menu ever showed
         self.wasInvoked = False
         # the panel that the popup menu will be attached to
-        self.panel = pm.getPanel(underPointer=True)
+        self.panel = cmds.getPanel(underPointer=True)
         # the panel type, can be used when building to determine the menu's contents
-        self.panelType = pm.getPanel(typeOf=self.panel)
+        self.panelType = cmds.getPanel(typeOf=self.panel)
         LOG.debug("Panel: " + self.panel + ", Panel Type: " + self.panelType)
 
         # the unique id for this popup menu, must be overridden in subclasses
@@ -390,9 +391,9 @@ class RMBMarkingMenu(rmbmenuhook.Menu):
     def __init__(self, menu, obj=None):
         rmbmenuhook.Menu.__init__(self, menu, obj)
         # the panel that the popup menu will be attached to
-        self.panel = pm.getPanel(up=True)
+        self.panel = cmds.getPanel(underPointer=True)
         # the panel type, can be used when building to determine the menu's contents
-        self.panelType = pm.getPanel(typeOf=self.panel)
+        self.panelType = cmds.getPanel(typeOf=self.panel)
 
     def build(self):
         """
