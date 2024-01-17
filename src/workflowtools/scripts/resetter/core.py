@@ -58,7 +58,10 @@ def setDefaults(nodes=None, attrList=[], key=True, nonkey=False, cbsel=False, at
     if len(nodes) == 0:
         return
 
-    selAttrs = getChannelBoxSelection()
+    selAttrs = {}
+    if cbsel:
+        selAttrs = getChannelBoxSelection()
+
     # keyable and nonkeyable queries cannot be combined, so we build multiple queries.
     # any given customListAttr options are used as a third possible query
     queries = []
@@ -307,7 +310,7 @@ def getChannelBoxSelection(main=True, shape=True, out=True, hist=True):
     for mode in modes:
         objs = cbinfo(objFlag.format(mode))
         attrs = cbinfo(attrFlag.format(mode))
-        if objs is not None and attrs is not None:
+        if objs and attrs:
             for obj in objs:
                 pyobj = pm.PyNode(obj)
                 if pyobj not in result:
