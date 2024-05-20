@@ -1,5 +1,5 @@
 /*
-	Contains overridden global procedures for Maya 2024
+	Contains overridden global procedures for Maya 2025
 	
 	These overridden functions have hooks added that make
 	calls to the rmb menu manager.
@@ -114,6 +114,21 @@ global proc buildObjectMenuItemsNow( string $parentName)
 				-label (uiRes("m_buildObjectMenuItemsNow.kBakePivotOri"))
 				-checkBox `manipPivot -q -bakeOri`
 				-command ("setTRSBakePivotOri #1");
+
+			menuItem -divider true;
+
+			radioMenuItemCollection;
+			int $center = (`manipPivot -q -resetMode` == /*center pivot*/0);
+			menuItem
+				-label (uiRes("m_buildObjectMenuItemsNow.kResetCenter"))
+				-radioButton $center
+				-command "setTRSResetPivotMode 0";
+
+			menuItem
+				-label (uiRes("m_buildObjectMenuItemsNow.kResetZerp"))
+				-radioButton (!$center)
+				-command "setTRSResetPivotMode 1";
+			setParent -m ..;
 
             setParent ..;
 		} else {
