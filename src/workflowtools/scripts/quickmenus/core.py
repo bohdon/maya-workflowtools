@@ -19,6 +19,7 @@ __all__ = [
     "removeMenuHotkeys",
     "RMBMarkingMenu",
     "unregisterMenu",
+    "refreshModelPanelMenus",
 ]
 
 
@@ -295,6 +296,30 @@ def getAllRegisteredMenus():
     """
     global REGISTERED_MENUS
     return REGISTERED_MENUS.items()
+
+
+
+
+
+
+# EDIT: Added a refresh function
+"""
+refresh model panel menus
+"""
+
+try:
+    import dag_refresh_ui
+except ImportError:
+    dag_refresh_ui = None
+
+def refreshModelPanelMenus():
+    """Sync Maya's own panel menus with the current display/selection state."""
+    if dag_refresh_ui:
+        dag_refresh_ui.model_panel_menus()
+
+
+
+
 
 
 class MarkingMenu(object):

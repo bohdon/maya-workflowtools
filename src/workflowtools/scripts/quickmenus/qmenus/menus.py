@@ -176,6 +176,7 @@ class DisplayMaskingMenu(core.MarkingMenu):
         for k in keys:
             kwargs[k] = enabled
         pm.modelEditor(self.panel, e=True, **kwargs)
+        core.refreshModelPanelMenus() # EDIT: if Show - VCiewport menu is open, update it when values change from q+mmb
 
     def hideSelected(self):
         sel = pm.selected()
