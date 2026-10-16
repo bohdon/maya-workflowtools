@@ -47,6 +47,7 @@ except Exception as e:
 else:
     if not wasInvoked:
         {secondary}
+{postRelease}
 """
 
 # all menus that have been registered,
@@ -83,8 +84,13 @@ def _switchToNonDefaultHotkeySet():
             pm.hotkeySet('Maya_Default_Duplicate', src='Maya_Default', cu=True)
             LOG.info("Created duplicate hotkey set: Maya_Default_Duplicate")
 
+# EDIT START
+#def registerMenuHotkeys(menuName, hotkey, importCmd=None, preBuildCmd=None, secondaryCmd=None, annotation=None): # original line
+def registerMenuHotkeys(menuName, hotkey, importCmd=None, preBuildCmd=None, postReleaseCmd=None, secondaryCmd=None, annotation=None): # added postReleaseCmd=None
 
-def registerMenuHotkeys(menuName, hotkey, importCmd=None, preBuildCmd=None, secondaryCmd=None, annotation=None):
+    postReleaseCmd = postReleaseCmd if postReleaseCmd else "pass" # added this
+    # EDIT END
+    
     """
     Setup hotkeys for builds and removing marking menus on hotkey press and release.
 
@@ -119,7 +125,10 @@ def registerMenuHotkeys(menuName, hotkey, importCmd=None, preBuildCmd=None, seco
     buildCmd = BUILD_MENU_CMD.format(
         menuName=menuName, importCmd=importCmd, preBuild=preBuildCmd, secondary=secondaryCmd)
     destroyCmd = DESTROY_MENU_CMD.format(
-        menuName=menuName, importCmd=importCmd, preBuild=preBuildCmd, secondary=secondaryCmd)
+        # EDIT START
+        #menuName=menuName, importCmd=importCmd, preBuild=preBuildCmd, secondary=secondaryCmd) # original line
+        menuName=menuName, importCmd=importCmd, preBuild=preBuildCmd, postRelease=postReleaseCmd, secondary=secondaryCmd)
+        # EDIT END
 
     buildRtCmdId = rtCmdIdFmt.format("build", menuName)
     if pm.runTimeCommand(buildRtCmdId, q=True, ex=True):
